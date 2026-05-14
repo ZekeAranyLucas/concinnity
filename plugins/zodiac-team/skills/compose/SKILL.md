@@ -1,6 +1,6 @@
 ---
 name: compose
-description: Compose an agent team from zodiac developer personas - select the right subset for any task
+description: Use when starting a multi-agent workflow that needs balanced zodiac persona perspectives, or when the user asks "which personas should I use for X?" or "build me a team for Y". Picks 3-5 personas balanced across elements (Fire/Earth/Air/Water) and modalities (Cardinal/Fixed/Mutable).
 ---
 
 # Zodiac Team Composer

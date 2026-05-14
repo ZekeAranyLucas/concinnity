@@ -1,6 +1,6 @@
 ---
 name: fix-issues
-description: Fix approved issues by grouping them by file and dispatching fix agents serially with verification
+description: Use when applying approved fixes from .issues/ — for example "fix the approved issues", "apply the accepted fixes", "do the fixes we agreed on". Step 4 of the dot-issues workflow; groups approved issues by file and dispatches fix agents serially with verification.
 ---
 
 # Fix Approved Issues

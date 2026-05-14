@@ -1,6 +1,6 @@
 ---
 name: prioritize
-description: Prioritize review feedback using the Concinnity framework - Correct > Cognition > Conformant > Compatible
+description: Use when you have a list of review findings, code review comments, or issues and need to rank them by impact — for example "which of these matter most?" or "rank these by severity". Applies the Concinnity framework: Correct > Cognition > Conformant > Compatible.
 ---
 
 # Prioritize Issues by Concinnity

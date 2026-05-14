@@ -1,6 +1,6 @@
 ---
 name: triage-issues
-description: Interactive triage to review each issue, present fix options, and record accept/reject/skip decisions
+description: Use when going through review findings one at a time to accept, reject, or skip — for example "let's triage these issues", "review them with me one by one", "decide what to fix". Step 3 of the dot-issues workflow, after issues are saved but before fixing.
 ---
 
 # Triage Issues Interactively

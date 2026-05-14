@@ -1,6 +1,6 @@
 ---
 name: show-issues
-description: Scan the .issues/ folder, summarize open issues across all reviews, and offer to help resolve them
+description: Use when checking what review issues are still open across past reviews, starting a work session, or asking "what's left to do?", "any open issues?", "where did we leave off?". Scans .issues/ across all reviews and summarizes by state.
 ---
 
 # Show Issues from .issues/

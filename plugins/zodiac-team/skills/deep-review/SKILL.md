@@ -1,6 +1,6 @@
 ---
 name: deep-review
-description: Zodiac-powered multi-agent review with adversarial debate and solution proposals — auto-detects review type, composes a persona team (default all 12), dispatches parallel reviewers with NO issue limit, runs multi-round debate to harden findings, then assigns issues to overlapping agent groups for solution proposals with adversarial debate. Use instead of zodiac-team:fast-review when thoroughness matters more than speed.
+description: Use when reviewing critical code, specs, designs, or plans where missed issues are costly and thoroughness matters more than speed — for example "do a thorough review", "audit this PR", "be rigorous about this change". Zodiac-powered multi-agent review with adversarial debate over both issues and solutions; finds more than fast-review but takes longer.
 ---
 
 # Zodiac Team Deep Review

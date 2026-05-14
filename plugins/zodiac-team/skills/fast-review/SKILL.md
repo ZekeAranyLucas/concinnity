@@ -1,6 +1,6 @@
 ---
 name: fast-review
-description: Fast zodiac-powered multi-agent review — auto-detects review type, composes a persona team, and dispatches parallel agents with Concinnity prioritization
+description: Use when reviewing code changes, PRs, diffs, specs, designs, or implementation plans and want diverse persona-driven perspectives — for example "review my PR", "look at this diff", "thoughts on this code". Fast zodiac-powered multi-agent review with auto-detected type and Concinnity prioritization. Use deep-review instead when thoroughness matters more than speed.
 ---
 
 # Zodiac Team Fast Review

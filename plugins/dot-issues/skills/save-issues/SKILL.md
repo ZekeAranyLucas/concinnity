@@ -1,6 +1,6 @@
 ---
 name: save-issues
-description: Save review issues to the .issues/ folder with task-based format for tracking accept/reject workflow
+description: Use after a review produces findings to persist them to .issues/ with checkbox-tracked accept/reject states. Step 1 of the dot-issues workflow (save → show → triage → fix); typically invoked by review skills rather than directly.
 ---
 
 # Save Issues to .issues/
