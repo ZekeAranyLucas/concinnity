@@ -17,10 +17,10 @@ Then run `/reload-plugins`.
 
 | Skill | Description |
 |-------|-------------|
-| `dot-issues-save` | Persists an issue list to the `.issues/` store |
-| `dot-issues-show` | Displays open issues from `.issues/` |
-| `dot-issues-triage` | Interactively triages issues (accept / reject / skip) |
-| `dot-issues-fix` | Drives automated fixing of accepted issues, grouped by file |
+| `save-issues` | Persists an issue list to the `.issues/` store |
+| `show-issues` | Displays open issues from `.issues/` |
+| `triage-issues` | Interactively triages issues (accept / reject / skip) |
+| `fix-issues` | Drives automated fixing of accepted issues, grouped by file |
 
 ## Pairs well with
 

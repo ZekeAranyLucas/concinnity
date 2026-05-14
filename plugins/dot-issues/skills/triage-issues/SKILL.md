@@ -1,5 +1,5 @@
 ---
-name: dot-issues-triage
+name: triage-issues
 description: Interactive triage to review each issue, present fix options, and record accept/reject/skip decisions
 ---
 
@@ -37,7 +37,7 @@ grep -rn "^### \[ \]" .issues/*.md 2>/dev/null
 
 If no open issues found:
 > No open issues to triage. All issues have been reviewed.
-> Use `/dot-issues-show` to see the full status.
+> Use `/dot-issues:show-issues` to see the full status.
 
 Parse each match to extract:
 - Review file path
@@ -249,12 +249,12 @@ After all issues are processed (or user stops early):
 ## Next Steps
 
 {If accepted issues exist:}
-- Run `/dot-issues-fix` to automatically fix accepted issues
+- Run `/dot-issues:fix-issues` to automatically fix accepted issues
 - Or fix manually and mark as `[x]` when done
 
 {If skipped issues exist:}
-- Run `/dot-issues-triage` again to review skipped issues
-- Or use `/dot-issues-show` to see all issue states
+- Run `/dot-issues:triage-issues` again to review skipped issues
+- Or use `/dot-issues:show-issues` to see all issue states
 ```
 
 ---
@@ -332,7 +332,7 @@ Stopping triage early.
 **Skipped:** {count}
 **Not yet reviewed:** {remaining}
 
-Run `/dot-issues-triage` again to continue from where you left off.
+Run `/dot-issues:triage-issues` again to continue from where you left off.
 ```
 
 ### Source File Not Found
@@ -371,26 +371,26 @@ If issue has previous skip/triage notes, show them:
 ## Integration
 
 **Uses:**
-- `prioritize-issues-by-concinnity` - For sorting issues by priority
+- `zodiac-team:prioritize` - For sorting issues by priority
 
 **Works with issues created by:**
 - `tola-review-tests`
 - `five-agent-code-review`
 - `five-agent-spec-review`
 - `ado-pr-review`
-- Any skill using the `dot-issues-save` format
+- Any skill using the `save-issues` format
 
 **After triage, use:**
-- `/dot-issues-fix` to automatically fix accepted issues
-- `/dot-issues-show` to see updated status
+- `/dot-issues:fix-issues` to automatically fix accepted issues
+- `/dot-issues:show-issues` to see updated status
 
 ---
 
 ## Quick Reference
 
 ```
-/dot-issues-triage          # Start interactive triage (sorted by Concinnity priority)
-/dot-issues-triage tola     # Only triage issues from tola-review-tests
-/dot-issues-triage --p1     # Only triage P1 Correct (blocking) issues
-/dot-issues-triage --quick  # Quick mode (brief summaries)
+/dot-issues:triage-issues          # Start interactive triage (sorted by Concinnity priority)
+/dot-issues:triage-issues tola     # Only triage issues from tola-review-tests
+/dot-issues:triage-issues --p1     # Only triage P1 Correct (blocking) issues
+/dot-issues:triage-issues --quick  # Quick mode (brief summaries)
 ```

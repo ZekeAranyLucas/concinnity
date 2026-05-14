@@ -1,5 +1,5 @@
 ---
-name: prioritize-issues-by-concinnity
+name: prioritize
 description: Prioritize review feedback using the Concinnity framework - Correct > Cognition > Conformant > Compatible
 ---
 

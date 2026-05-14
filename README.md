@@ -22,6 +22,6 @@ Install either independently:
 /plugin install dot-issues@concinnity
 ```
 
-`zodiac-team` review skills can persist their findings via `dot-issues-save`. They work standalone, but installing both unlocks the full review-to-fix loop.
+`zodiac-team` review skills can persist their findings via `dot-issues:save-issues`. They work standalone, but installing both unlocks the full review-to-fix loop.
 
 Then run `/reload-plugins` to activate without restarting.

@@ -1,6 +1,6 @@
 ---
-name: zodiac-team-debate
-description: Zodiac-powered multi-agent review with adversarial debate and solution proposals — auto-detects review type, composes a persona team (default all 12), dispatches parallel reviewers with NO issue limit, runs multi-round debate to harden findings, then assigns issues to overlapping agent groups for solution proposals with adversarial debate. Use instead of zodiac-team-review when thoroughness matters more than speed.
+name: deep-review
+description: Zodiac-powered multi-agent review with adversarial debate and solution proposals — auto-detects review type, composes a persona team (default all 12), dispatches parallel reviewers with NO issue limit, runs multi-round debate to harden findings, then assigns issues to overlapping agent groups for solution proposals with adversarial debate. Use instead of zodiac-team:fast-review when thoroughness matters more than speed.
 ---
 
 # Zodiac Team Debate
@@ -13,7 +13,7 @@ Two debate cycles:
 1. **Issue debate** (Phases 1-3) — find and harden problems
 2. **Solution debate** (Phases 4-6) — propose and harden fixes
 
-Key differences from zodiac-team-review:
+Key differences from zodiac-team:fast-review:
 - **No issue limit** — find everything within your lens
 - **Anti-satisfaction-bias** — after each finding, re-read the entire function for independent concerns
 - **Issue debate** — agents challenge each other's findings before merge
@@ -29,18 +29,18 @@ Use when:
 - Reviewing complex multi-file changes
 
 Don't use for:
-- Quick reviews (use zodiac-team-review instead)
+- Quick reviews (use zodiac-team:fast-review instead)
 - Small diffs under 50 lines (overkill)
 - Environments without Agent tool support
 
 **Arguments:**
-- `/zodiac-team-debate` — auto-detect type, all 12 signs
-- `/zodiac-team-debate --type code` — force review type (code, spec, design, plan)
-- `/zodiac-team-debate --team virgo,scorpio,aries` — use only specified signs (smaller, faster)
+- `/zodiac-team:deep-review` — auto-detect type, all 12 signs
+- `/zodiac-team:deep-review --type code` — force review type (code, spec, design, plan)
+- `/zodiac-team:deep-review --team virgo,scorpio,aries` — use only specified signs (smaller, faster)
 
 ## Step 0: Detect Review Type
 
-Same as zodiac-team-review. Check for `--type` override first; otherwise detect from signals.
+Same as zodiac-team:fast-review. Check for `--type` override first; otherwise detect from signals.
 
 | Priority | Signal | Review Type |
 |----------|--------|------------|
@@ -64,7 +64,7 @@ When using a subset via `--team`, validate element/modality balance (at least 3/
 
 ## Persona Lens Reference
 
-Same table as zodiac-team-review. Each persona's allowed/forbidden concerns are derived from their zodiac skill file at dispatch time.
+Same table as zodiac-team:fast-review. Each persona's allowed/forbidden concerns are derived from their zodiac skill file at dispatch time.
 
 | Persona | Archetype | Allowed Concerns (Review Lens) |
 |---------|-----------|-------------------------------|
@@ -498,15 +498,15 @@ Sort by priority (P1 → P2 → P3 → P4), then by confidence (HIGH → MEDIUM 
 
 ## Step 12: Save Review
 
-Save to `.issues/{YYYY-MM-DD}__zodiac-debate-{subject}.md`.
+Save to `.issues/{YYYY-MM-DD}__zodiac-deep-review-{subject}.md`.
 
 ### Output Template
 
 ````markdown
-# Zodiac Team Debate: {subject}
+# Zodiac Team Deep Review: {subject}
 
 **Reviewed:** {YYYY-MM-DD}
-**Reviewer:** Claude (zodiac-team-debate)
+**Reviewer:** Claude (zodiac-team:deep-review)
 **Review type:** {Code|Spec|Design|Plan|General} review ({auto-detected|user-specified})
 **Process:** 6-phase debate (issue review → issue debate → issue finals → solution proposals → solution debate → solution finals)
 
@@ -600,7 +600,7 @@ These solutions survived adversarial debate with consensus. Safe to apply withou
 
 {List of issue IDs with brief titles, all HIGH confidence regardless of priority}
 
-> Run `/dot-issues-fix` to apply these automatically.
+> Run `/dot-issues:fix-issues` to apply these automatically.
 
 ### Triage needed: P1/P2 issues with MEDIUM or LOW confidence ({count} issues)
 
@@ -608,7 +608,7 @@ These are high-priority problems where the best fix is uncertain. Review each ma
 
 {List of issue IDs with brief titles, confidence level, and dissent summary}
 
-> Run `/dot-issues-triage` to interactively review these.
+> Run `/dot-issues:triage-issues` to interactively review these.
 
 ### Remaining: LOW priority with MEDIUM/LOW confidence ({count} issues)
 
@@ -620,9 +620,9 @@ Lower-priority items that may not be worth the review effort right now:
 
 ### Next Steps
 
-1. Apply high-confidence fixes: `/dot-issues-fix` (filters to accepted HIGH confidence)
-2. Triage uncertain critical fixes: `/dot-issues-triage` (focuses on P1/P2 MEDIUM/LOW)
-3. Use `/dot-issues-show` to see remaining open issues
+1. Apply high-confidence fixes: `/dot-issues:fix-issues` (filters to accepted HIGH confidence)
+2. Triage uncertain critical fixes: `/dot-issues:triage-issues` (focuses on P1/P2 MEDIUM/LOW)
+3. Use `/dot-issues:show-issues` to see remaining open issues
 ````
 
 Tell user: "Debate review saved to `.issues/{filename}`."
@@ -630,14 +630,14 @@ Tell user: "Debate review saved to `.issues/{filename}`."
 After saving, present the recommended actions summary in chat (not just in the file). Check whether the `dot-issues` plugin is installed in the current session (look for skills in the `dot-issues:*` namespace in your available skills list):
 
 **If `dot-issues:*` skills are available:**
-1. State how many issues can be auto-applied (HIGH confidence) and offer to run `/dot-issues-fix`
-2. State how many P1/P2 issues need triage (MEDIUM/LOW confidence) and offer to run `/dot-issues-triage`
-3. State how many remaining issues can be deferred (mention `/dot-issues-show` for tracking)
+1. State how many issues can be auto-applied (HIGH confidence) and offer to run `/dot-issues:fix-issues`
+2. State how many P1/P2 issues need triage (MEDIUM/LOW confidence) and offer to run `/dot-issues:triage-issues`
+3. State how many remaining issues can be deferred (mention `/dot-issues:show-issues` for tracking)
 
 **If `dot-issues` is NOT installed:**
 1. State how many issues are HIGH/MEDIUM/LOW confidence in chat (same counts, no slash-command offers)
 2. Close with: "Findings saved to `.issues/{filename}`. To get triage and auto-fix workflows, install the companion plugin: `/plugin install dot-issues@concinnity`."
-The file's inline `> Run /dot-issues-X` callouts remain useful as documentation if the user installs dot-issues later.
+The file's inline `> Run /dot-issues:X-issues` callouts remain useful as documentation if the user installs dot-issues later.
 
 **Do NOT include in output:**
 - Raw Phase 1-6 agent outputs
@@ -646,7 +646,7 @@ The file's inline `> Run /dot-issues-X` callouts remain useful as documentation 
 
 ## Domain Rules
 
-Identical to zodiac-team-review. Domain rules are conditional context injected into **ALL team members' Phase 1 prompts** when the review target matches certain patterns.
+Identical to zodiac-team:fast-review. Domain rules are conditional context injected into **ALL team members' Phase 1 prompts** when the review target matches certain patterns.
 
 **Before dispatching Phase 1, check each domain rule's "Applies when" criteria. If matched, append to EVERY persona's Phase 1 prompt.**
 
@@ -712,7 +712,7 @@ This codebase has two ways to mock feature flags:
 |--------|---------|
 | "The review phase found enough, skip debate" | Debate catches false positives and reveals missed issues. Always run it. |
 | "I can simulate the debate myself" | No. Each persona is a separate subagent in each phase. |
-| "Six phases is too slow" | Use zodiac-team-review if speed matters. This skill prioritizes thoroughness. |
+| "Six phases is too slow" | Use zodiac-team:fast-review if speed matters. This skill prioritizes thoroughness. |
 | "The findings are already good, debate won't help" | Debate eliminates ~20% of false positives in practice. |
 | "I'll just do 1 round of debate" | Minimum 2 rounds. Round 2 catches what round 1 missed. |
 | "12 agents is too many, I'll use 4" | Default is 12 for a reason. Use `--team` to narrow if needed. |

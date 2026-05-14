@@ -1,5 +1,5 @@
 ---
-name: zodiac-team-compose
+name: compose
 description: Compose an agent team from zodiac developer personas - select the right subset for any task
 ---
 
