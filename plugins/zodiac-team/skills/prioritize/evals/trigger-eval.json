@@ -1,0 +1,22 @@
+[
+  {"query": "I have 17 issues from a code review on src/payments/. Which of these matter most? Help me rank them by impact", "should_trigger": true},
+  {"query": "Rank these GitHub PR comments by severity — i need to triage them before my 1:1 with my lead at 3pm", "should_trigger": true},
+  {"query": "We just got a big batch of feedback from a design review and i need to figure out what's blocking vs nice-to-have", "should_trigger": true},
+  {"query": "Help me prioritize the bugs in our backlog for the next sprint — there are 32 of them and we have time for maybe 8", "should_trigger": true},
+  {"query": "Which of these 8 review findings should I tackle first? Some feel critical, others look like style nits", "should_trigger": true},
+  {"query": "Order these code smell flags from the linter by how much they actually matter — most look like style stuff", "should_trigger": true},
+  {"query": "We did a zodiac team review and got back like 15 findings. Help me sort them into must-fix vs maybe-later", "should_trigger": true},
+  {"query": "I want to apply Concinnity-style prioritization to this list of bugs from yesterday's QA pass", "should_trigger": true},
+  {"query": "Apply the Correct > Cognition > Conformant > Compatible framework to these findings — they're at .issues/2026-05-12_code-review.md", "should_trigger": true},
+  {"query": "Prioritize my email inbox — sort by which messages need a same-day reply versus this-week versus archive", "should_trigger": false},
+  {"query": "Help me prioritize my goals for the year — i have a list of personal/professional aspirations to rank", "should_trigger": false},
+  {"query": "Which of these JIRA tickets blocks the release? Just need a yes/no per ticket, not a full ranking", "should_trigger": false},
+  {"query": "Sort this list of customers by ARR descending — i have a CSV with company_name, arr, segment columns", "should_trigger": false},
+  {"query": "Rank our team's engineering productivity metrics from this dashboard — which ones actually drive output?", "should_trigger": false},
+  {"query": "Apply the Eisenhower matrix to my todo list for the week — i have urgent vs important tasks mixed together", "should_trigger": false},
+  {"query": "Which Concinnity score is highest for this codebase? I want to compare against industry baselines", "should_trigger": false},
+  {"query": "Help me rank these candidates from yesterday's interview loop — i have feedback from 5 interviewers", "should_trigger": false},
+  {"query": "Sort my Spotify Liked Songs by play count — i want to make a top-50 playlist for the year-end", "should_trigger": false},
+  {"query": "Prioritize these features by user impact for the next quarter — i have product metrics and customer surveys", "should_trigger": false},
+  {"query": "Which of these unit tests is most flaky? Rank by failure rate across the last 30 days of CI runs", "should_trigger": false}
+]
