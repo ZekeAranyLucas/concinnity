@@ -1,0 +1,22 @@
+[
+  {"query": "I'm shipping a major refactor of the payment gateway that handles ~$2M/day. Needs adversarial review because if anything's wrong, money is at stake. Branch is feat/payment-gateway-v3, ~800 lines changed across 12 files. Be really thorough — I'd rather you find 3 false positives than miss one real bug", "should_trigger": true},
+  {"query": "Do a serious audit of this auth migration in src/auth/oauth2/. We've been burned before by token-leak bugs. Don't be shy about finding stuff. Multiple persona perspectives, debate the findings", "should_trigger": true},
+  {"query": "Critical pre-merge review — this PR handles GDPR deletion requests (#1247 on github.com/myco/backend). Every edge case matters. Take your time. I need confidence we haven't missed anything subtle around what 'deleted' actually means", "should_trigger": true},
+  {"query": "Pre-merge audit for the new pricing logic in src/billing/pricing/. I need confidence that we haven't missed anything subtle — there are interlocking discount rules, coupon stacking, and tax handling. Be exhaustive", "should_trigger": true},
+  {"query": "Be rigorous about this. Multiple rounds if needed. Critical code path, can't afford false confidence. It's the new transaction reconciliation job — runs nightly, handles ~50M rows, can't break", "should_trigger": true},
+  {"query": "Hostile-style review please — try hard to find what's broken in this spec. Third revision of a complex spec for the new event sourcing architecture. I want the kind of review where reviewers argue with each other", "should_trigger": true},
+  {"query": "I want every persona arguing with each other on this — design review for the new ML inference pipeline architecture. doc is at docs/designs/inference-v2.md. Don't let weak agreement masquerade as consensus", "should_trigger": true},
+  {"query": "Maximum scrutiny on this database migration — adds a not-null column to a 200M-row table with backfill. We literally can't roll it back if something goes wrong. Want adversarial review of the migration plan", "should_trigger": true},
+  {"query": "Heavyweight review needed. New auth provider integration, customer-facing, can't have outages. I want competing solutions for any issue you find — not just one fix, multiple options that get debated", "should_trigger": true},
+  {"query": "Hey can you review my PR really fast? I just need a sanity check before merging — a small change to docs and one bug fix. Don't need anything elaborate", "should_trigger": false},
+  {"query": "Just give me a quick scan for typos and obvious issues in this design doc — I'm presenting it at standup in 20 min and I don't need a comprehensive audit", "should_trigger": false},
+  {"query": "Schedule a code review session with Maya and the platform team for next Tuesday at 2pm. Add it to our shared calendar and send a Zoom link", "should_trigger": false},
+  {"query": "What's the deep meaning of this poem? I'm trying to analyze the symbolism in 'The Waste Land' for my book club next week", "should_trigger": false},
+  {"query": "Do a deep dive on Postgres locking semantics for me — I need to understand row-level vs predicate locks before I write a design doc on it", "should_trigger": false},
+  {"query": "Audit my expense report — I expensed a $4500 conference trip and want to make sure all the receipts are attached and the categories are right before submitting", "should_trigger": false},
+  {"query": "I want a thorough review — but only of the test files in test/integration/, not the implementation. Just looking for missing test coverage, not bugs in the production code", "should_trigger": false},
+  {"query": "Look at this Python code and tell me if it'll compile — i'm not a Python person and I'm worried about syntax errors before I run it", "should_trigger": false},
+  {"query": "Review my SQL query for performance issues — it's doing a full table scan and I want to understand why, plus suggestions on indexes", "should_trigger": false},
+  {"query": "Be thorough when explaining this algorithm to me — I want to understand exactly how the consensus protocol in our raft implementation works, step by step", "should_trigger": false},
+  {"query": "We had a postmortem last week — review the action items from it and tell me which ones still need owners. The doc is in our team wiki", "should_trigger": false}
+]
