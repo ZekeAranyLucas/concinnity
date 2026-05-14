@@ -24,4 +24,4 @@ Then run `/reload-plugins`.
 
 ## Pairs well with
 
-[`zodiac-team`](../zodiac-team/) review skills produce findings that `dot-issues-save` can persist for triage and fixing.
+[`zodiac-team`](https://github.com/ZekeAranyLucas/concinnity/tree/main/plugins/zodiac-team) review skills produce findings that `dot-issues` can triage and auto-fix. Either plugin works standalone — installing both unlocks the full review-to-fix loop.

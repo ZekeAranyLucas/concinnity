@@ -196,7 +196,7 @@ Rank every issue by which principle it violates, NOT by which persona found it:
 
 ## Step 4: Save Review
 
-Save the distilled review using `dot-issues-save` format.
+Save the distilled review to a file. The file format is self-contained — `dot-issues` is an optional consumer that adds triage/auto-fix workflows on top.
 
 ### File Location
 
@@ -268,10 +268,12 @@ Create `.issues/` folder if it doesn't exist.
 
 1. Review issues above and mark `[/]` to accept or `[-]` to reject
 2. For accepted issues, apply the suggested fixes
-3. Use `/dot-issues-show` to see remaining open issues
 ````
 
-Tell user: "Review saved to `.issues/{filename}`. Use `/dot-issues-show` to track progress."
+After saving, present a closing message to the user. Check whether the `dot-issues` plugin is installed in the current session (look for skills in the `dot-issues:*` namespace in your available skills list):
+
+- **If `dot-issues:dot-issues-show` is available:** Tell user: "Review saved to `.issues/{filename}`. Run `/dot-issues-show` to track progress, `/dot-issues-triage` to interactively accept/reject, or `/dot-issues-fix` to apply accepted fixes."
+- **If `dot-issues` is NOT installed:** Tell user: "Review saved to `.issues/{filename}`. To triage and auto-fix these findings, install the companion plugin: `/plugin install dot-issues@concinnity`."
 
 **Do NOT include in output:**
 - Raw agent outputs (only the merged, deduplicated result)

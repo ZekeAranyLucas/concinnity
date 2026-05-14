@@ -627,10 +627,17 @@ Lower-priority items that may not be worth the review effort right now:
 
 Tell user: "Debate review saved to `.issues/{filename}`."
 
-After saving, present the recommended actions summary directly (not just in the file). Specifically:
+After saving, present the recommended actions summary in chat (not just in the file). Check whether the `dot-issues` plugin is installed in the current session (look for skills in the `dot-issues:*` namespace in your available skills list):
+
+**If `dot-issues:*` skills are available:**
 1. State how many issues can be auto-applied (HIGH confidence) and offer to run `/dot-issues-fix`
 2. State how many P1/P2 issues need triage (MEDIUM/LOW confidence) and offer to run `/dot-issues-triage`
-3. State how many remaining issues can be deferred
+3. State how many remaining issues can be deferred (mention `/dot-issues-show` for tracking)
+
+**If `dot-issues` is NOT installed:**
+1. State how many issues are HIGH/MEDIUM/LOW confidence in chat (same counts, no slash-command offers)
+2. Close with: "Findings saved to `.issues/{filename}`. To get triage and auto-fix workflows, install the companion plugin: `/plugin install dot-issues@concinnity`."
+The file's inline `> Run /dot-issues-X` callouts remain useful as documentation if the user installs dot-issues later.
 
 **Do NOT include in output:**
 - Raw Phase 1-6 agent outputs
