@@ -1,0 +1,13 @@
+{
+  "name": "dot-issues",
+  "description": "File-based issue tracking in .issues/ — save, show, triage, and fix review findings",
+  "version": "1.0.0",
+  "author": {
+    "name": "Zeke Arany-Lucas",
+    "email": "zeke@aranylucas.com"
+  },
+  "homepage": "https://github.com/ZekeAranyLucas/concinnity",
+  "repository": "https://github.com/ZekeAranyLucas/concinnity",
+  "license": "MIT",
+  "keywords": ["issues", "triage", "review-workflow"]
+}

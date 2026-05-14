@@ -1,0 +1,13 @@
+{
+  "name": "zodiac-team",
+  "description": "Multi-agent code review with zodiac developer personas, adversarial debate, and Concinnity prioritization",
+  "version": "1.1.0",
+  "author": {
+    "name": "Zeke Arany-Lucas",
+    "email": "zeke@aranylucas.com"
+  },
+  "homepage": "https://github.com/ZekeAranyLucas/concinnity",
+  "repository": "https://github.com/ZekeAranyLucas/concinnity",
+  "license": "MIT",
+  "keywords": ["review", "multi-agent", "zodiac", "code-review", "debate"]
+}
