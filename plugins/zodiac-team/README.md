@@ -21,7 +21,7 @@ Reviews work standalone — findings save to `.issues/` and appear in chat. If [
 |-------|-------------|
 | `fast-review` | Dispatches a panel of zodiac agents to review a PR or file set |
 | `deep-review` | Runs adversarial debate among agents to harden findings and propose solutions |
-| `compose` | Selects a balanced team of zodiac personas for a task |
+| `hire-zodiacs` | Selects a balanced team of zodiac personas for a task |
 | `prioritize` | Ranks a list of issues by Concinnity (Correct > Cognition > Conformant > Compatible) |
 
 ## Agents

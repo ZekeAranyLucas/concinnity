@@ -1,19 +1,19 @@
 ---
-name: compose
-description: Use when starting a multi-agent workflow that needs balanced zodiac persona perspectives, or when the user asks "which personas should I use for X?" or "build me a team for Y". Picks 3-5 personas balanced across elements (Fire/Earth/Air/Water) and modalities (Cardinal/Fixed/Mutable).
+name: hire-zodiacs
+description: Use when assembling a zodiac persona team for a task — for example "hire me a team to review X", "which zodiacs should I bring in for Y?", "build me a balanced crew", or "who should I pick for this?". Picks 3-5 personas balanced across elements (Fire/Earth/Air/Water) and modalities (Cardinal/Fixed/Mutable).
 ---
 
-# Zodiac Team Composer
+# Hire Zodiacs
 
 ## Overview
 
-Select the right subset of zodiac developer personas for a given task. Uses element/modality balance, natural pairings, and task-specific reasoning to recommend a team.
+Hire the right subset of zodiac developer personas for a given task. Uses element/modality balance, natural pairings, and task-specific reasoning to recommend a team.
 
 ## When to Use
 
 Use when:
-- Composing an agent team for a task and want persona-driven role diversity
-- User says "build me a team for X", "which personas should I use?"
+- Hiring a zodiac team for a task and want persona-driven role diversity
+- User says "hire me a team for X", "which zodiacs should I bring in?", "build me a crew"
 - Starting a multi-agent workflow that needs balanced perspectives
 
 ## The 12 Personas
@@ -103,12 +103,12 @@ Anti-patterns: All Cardinals start everything, finish nothing. All Fixed resist 
 
 ## Workflow
 
-When composing a team:
+When hiring a zodiac team:
 
 1. **Understand the task** — What type of work? (dev, review, decision, brainstorm)
 2. **Determine team size** — How many agents does the task warrant? (typically 3-5)
-3. **Check templates** — Does a preset template fit the task?
-4. **If no template fits**, compose manually:
+3. **Check templates** — Does a preset team fit the task?
+4. **If no template fits**, hire manually:
    a. Pick the primary persona for the core task
    b. Add a complementary persona (natural pairing)
    c. Check element balance — are at least 3 elements covered?
