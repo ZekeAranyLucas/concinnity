@@ -1,4 +1,4 @@
-# Zodiac Marketplace
+# Concinnity
 
 Claude Code plugins for multi-agent review and issue-tracking workflows.
 
