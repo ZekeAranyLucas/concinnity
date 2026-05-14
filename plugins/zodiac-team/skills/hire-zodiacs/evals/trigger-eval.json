@@ -1,0 +1,22 @@
+[
+  {"query": "Hire me a team to review my new payment integration — I'm not sure which personas to use. Want balance, not just analysts", "should_trigger": true},
+  {"query": "Which zodiacs should I bring in for a deep architecture decision on event sourcing? I want balance between visionaries and pragmatists", "should_trigger": true},
+  {"query": "Build me a balanced crew for a critical security review of the auth refactor — 4-5 people max", "should_trigger": true},
+  {"query": "Who should I pick from the zodiac team for brainstorming a new feature? I want both creative exploration and grounding", "should_trigger": true},
+  {"query": "Help me assemble a team to review a complex spec for the new billing API — I need both detail-focused and big-picture lenses", "should_trigger": true},
+  {"query": "I'm starting a multi-agent session on this refactor and want the right mix of personas — what would you recommend?", "should_trigger": true},
+  {"query": "Need a panel of zodiacs for a design review on the new ML inference pipeline. Want at least 3 elements covered", "should_trigger": true},
+  {"query": "Recommend a panel of zodiac personas for reviewing this PR — i want different perspectives, balanced across modalities", "should_trigger": true},
+  {"query": "Help me figure out the right zodiac lineup for an incident postmortem — needs to balance investigation depth with empathy", "should_trigger": true},
+  {"query": "Hire a contractor to fix the dishwasher — find me a good plumber in zip 98101 with availability this week", "should_trigger": false},
+  {"query": "Which zodiac sign is most compatible with Leo in dating? My partner and I are curious about astrology", "should_trigger": false},
+  {"query": "Build me a TypeScript type that represents engineering teams with roles, reporting lines, and on-call rotations", "should_trigger": false},
+  {"query": "Who's on call this week? Check our PagerDuty schedule and tell me — the team is platform-eng", "should_trigger": false},
+  {"query": "Compose an email to my manager about taking PTO next week — i want it professional but not stiff", "should_trigger": false},
+  {"query": "I'm assembling a Spotify playlist for our Friday team lunch — give me some indie folk recommendations", "should_trigger": false},
+  {"query": "Run the existing zodiac team fast-review on this code — I already know which personas i want, just dispatch them", "should_trigger": false},
+  {"query": "Tell me the difference between the Aries and Leo personas in this plugin — i'm reading the docs and confused", "should_trigger": false},
+  {"query": "Which agents should I use in my LangGraph workflow for processing customer feedback? I'm new to multi-agent frameworks", "should_trigger": false},
+  {"query": "Recommend a sequence of skills to invoke for fixing review issues — I'm not sure what order to do them in", "should_trigger": false},
+  {"query": "Show me the calendars for everyone on the platform team — who's on vacation next week and who's covering?", "should_trigger": false}
+]

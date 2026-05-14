@@ -1,6 +1,6 @@
 ---
-name: dot-issues-save
-description: Save review issues to the .issues/ folder with task-based format for tracking accept/reject workflow
+name: save-issues
+description: Use after a review produces findings to persist them to .issues/ with checkbox-tracked accept/reject states. Step 1 of the dot-issues workflow (save → show → triage → fix); typically invoked by review skills rather than directly.
 ---
 
 # Save Issues to .issues/
@@ -161,7 +161,7 @@ When changing state, add a note:
 1. Review issues above and mark `[x]` to accept or `[-]` to reject
 2. For accepted issues, apply the suggested fixes
 3. Re-run tests/checks to verify fixes
-4. Use `/dot-issues-show` to see remaining open issues
+4. Use `/dot-issues:show-issues` to see remaining open issues
 ```
 
 ## Integration with Review Skills
@@ -171,12 +171,12 @@ Review skills should call this pattern at the end of their workflow:
 ```markdown
 ## Output
 
-After completing the review, save issues using the dot-issues-save format:
+After completing the review, save issues using the save-issues format:
 
 1. Create `.issues/` folder if it doesn't exist
 2. Create file: `.issues/{YYYY-MM-DD}__{review-type}.md`
 3. Write issues using the task-based format above
-4. Tell user: "Review saved to `.issues/{filename}`. Use `/dot-issues-show` to track progress."
+4. Tell user: "Review saved to `.issues/{filename}`. Use `/dot-issues:show-issues` to track progress."
 ```
 
 ## Example: After tola-review-tests
@@ -247,7 +247,7 @@ assertNotNull(session.token)
 1. Review issues above and mark `[x]` to accept or `[-]` to reject
 2. For accepted issues, apply the suggested fixes
 3. Re-run tests to verify fixes
-4. Use `/dot-issues-show` to see remaining open issues
+4. Use `/dot-issues:show-issues` to see remaining open issues
 ```
 
 ## Commands
@@ -259,5 +259,5 @@ Review saved to .issues/2026-01-30__tola-review-tests.md
 
 Next steps:
 - Open the file and mark issues [x] accepted or [-] rejected
-- Use /dot-issues-show to see all open issues across reviews
+- Use /dot-issues:show-issues to see all open issues across reviews
 ```

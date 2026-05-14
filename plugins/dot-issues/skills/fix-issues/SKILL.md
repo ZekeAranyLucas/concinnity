@@ -1,6 +1,6 @@
 ---
-name: dot-issues-fix
-description: Fix approved issues by grouping them by file and dispatching fix agents serially with verification
+name: fix-issues
+description: Use when applying approved fixes from .issues/ — for example "fix the approved issues", "apply the accepted fixes", "do the fixes we agreed on". Step 4 of the dot-issues workflow; groups approved issues by file and dispatches fix agents serially with verification.
 ---
 
 # Fix Approved Issues
@@ -218,7 +218,7 @@ After all files are processed, report:
 
 1. Run tests to verify fixes: `./gradlew test`
 2. Review skipped issues manually
-3. Use `/dot-issues-show` to see remaining open issues
+3. Use `/dot-issues:show-issues` to see remaining open issues
 ```
 
 ---
@@ -287,7 +287,7 @@ Start
 
 ## Error Handling
 
-- **No approved issues:** "No approved issues found. Use `/dot-issues-show` to review and approve issues first."
+- **No approved issues:** "No approved issues found. Use `/dot-issues:show-issues` to review and approve issues first."
 - **File not found:** Skip issue, mark as FAILED with "Source file not found"
 - **Parse error:** Skip issue, mark as FAILED with "Could not parse issue format"
 - **Compile error after fix:** Revert change, mark as BROKEN

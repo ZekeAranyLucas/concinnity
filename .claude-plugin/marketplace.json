@@ -9,13 +9,13 @@
     {
       "name": "zodiac-team",
       "description": "Multi-agent code review with zodiac developer personas, adversarial debate, and Concinnity prioritization",
-      "version": "1.2.0",
+      "version": "2.0.0",
       "source": "./plugins/zodiac-team"
     },
     {
       "name": "dot-issues",
       "description": "File-based issue tracking in .issues/ — save, show, triage, and fix review findings",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "source": "./plugins/dot-issues"
     }
   ]

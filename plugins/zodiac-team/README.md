@@ -13,16 +13,16 @@ Dispatches a team of zodiac-archetype agents to review code, debate issues, and 
 
 Then run `/reload-plugins`.
 
-Reviews work standalone — findings save to `.issues/` and appear in chat. If [`dot-issues`](https://github.com/ZekeAranyLucas/concinnity/tree/main/plugins/dot-issues) is also installed, the closing recommendations adapt to offer triage (`/dot-issues-triage`) and auto-fix (`/dot-issues-fix`) workflows.
+Reviews work standalone — findings save to `.issues/` and appear in chat. If [`dot-issues`](https://github.com/ZekeAranyLucas/concinnity/tree/main/plugins/dot-issues) is also installed, the closing recommendations adapt to offer triage (`/dot-issues:triage-issues`) and auto-fix (`/dot-issues:fix-issues`) workflows.
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
-| `zodiac-team-review` | Dispatches a panel of zodiac agents to review a PR or file set |
-| `zodiac-team-debate` | Runs an adversarial debate between agents on a contested design question |
-| `zodiac-team-compose` | Assembles a multi-agent team to collaboratively produce a document or plan |
-| `prioritize-issues-by-concinnity` | Ranks a list of issues by Concinnity score (cohesion, correctness, maintainability) |
+| `fast-review` | Dispatches a panel of zodiac agents to review a PR or file set |
+| `deep-review` | Runs adversarial debate among agents to harden findings and propose solutions |
+| `hire-zodiacs` | Selects a balanced team of zodiac personas for a task |
+| `prioritize` | Ranks a list of issues by Concinnity (Correct > Cognition > Conformant > Compatible) |
 
 ## Agents
 

@@ -1,0 +1,22 @@
+[
+  {"query": "Hey can you look at this PR? It's at github.com/myorg/api-server/pull/447 — adds a webhook handler for stripe events. I want a normal-depth review, nothing crazy, just diverse perspectives", "should_trigger": true},
+  {"query": "Quick review of my changes please — I refactored the cache invalidation logic in src/cache/redis_client.ts and want a sanity check before opening the PR", "should_trigger": true},
+  {"query": "What do you think of this diff? Just pushed it to my feature branch — branch is feat/billing-v2 if you want to look. Mostly TypeScript changes to the invoice service", "should_trigger": true},
+  {"query": "review my spec for the new billing API — it's at docs/specs/billing-v3.md. would love multi-perspective feedback on whether the requirements are clear and complete", "should_trigger": true},
+  {"query": "look at this design doc for the notification service and tell me what's broken about it. it's in design-docs/notify-v2.md and i need balanced feedback before i present to the team friday", "should_trigger": true},
+  {"query": "give me a multi-perspective code review on the auth refactor in src/auth/ — speed is fine, just want different angles. don't need a super deep audit, just decent coverage", "should_trigger": true},
+  {"query": "i wrote up an implementation plan for migrating off redis to valkey. plan is at docs/plans/valkey-migration.md. can you review it before i start executing? want different lenses on whether the steps make sense", "should_trigger": true},
+  {"query": "thoughts on the typescript changes in this branch? mostly want to know if there are obvious bugs or weird patterns before i merge", "should_trigger": true},
+  {"query": "review this — `git diff main..feat/jwt-refresh` — feature branch for jwt refresh tokens, want a normal code review with multiple perspectives", "should_trigger": true},
+  {"query": "Help me write a code review comment on Sarah's PR — she added a database query inside a loop and I want to phrase the feedback constructively", "should_trigger": false},
+  {"query": "I want a thorough audit of the security implications of this auth migration — be really rigorous, take your time, this is the kind of change where a missed bug = customer data leak", "should_trigger": false},
+  {"query": "Walk me through what this code is doing — I'm reading our payment processing module and I'm confused about the retry logic in src/payments/retry.py", "should_trigger": false},
+  {"query": "I need to give feedback to a junior dev about their PR — they wrote a 600-line function. Help me phrase it constructively without being discouraging", "should_trigger": false},
+  {"query": "triage the issues from yesterday's code review — they're saved in .issues/2026-05-13__code-review-auth.md and i want to go through them one by one", "should_trigger": false},
+  {"query": "Review this academic paper on transformer architecture — it's a preprint about a new attention mechanism. I want to understand if their claims hold up", "should_trigger": false},
+  {"query": "Run the linter on src/api/handlers/ and tell me what it finds — i'm pretty sure there are some ESLint violations i missed", "should_trigger": false},
+  {"query": "Show me the diff for the last commit on main — git log says it was a refactor but i want to see what actually changed", "should_trigger": false},
+  {"query": "Help me understand what 'code review' means in agile methodology — is it the same as peer review? I'm new to this team", "should_trigger": false},
+  {"query": "I'm doing a self-review of my own code before opening a PR. Walk me through what I should look for — checklist style would be great", "should_trigger": false},
+  {"query": "Audit my expense report — i need to make sure the line items match my receipts before submitting to finance", "should_trigger": false}
+]

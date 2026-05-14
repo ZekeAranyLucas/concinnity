@@ -1,9 +1,9 @@
 ---
-name: zodiac-team-review
-description: Zodiac-powered multi-agent review — auto-detects review type, composes a persona team, and dispatches parallel agents with Concinnity prioritization
+name: fast-review
+description: Use when reviewing code changes, PRs, diffs, specs, designs, or implementation plans and want diverse persona-driven perspectives — for example "review my PR", "look at this diff", "thoughts on this code". Fast zodiac-powered multi-agent review with auto-detected type and Concinnity prioritization. Use deep-review instead when thoroughness matters more than speed.
 ---
 
-# Zodiac Team Review
+# Zodiac Team Fast Review
 
 ## Overview
 
@@ -25,9 +25,9 @@ Don't use for:
 - Environments without Agent tool support
 
 **Arguments:**
-- `/zodiac-team-review` — auto-detect type, auto-select team
-- `/zodiac-team-review --type code` — force review type (code, spec, design, plan)
-- `/zodiac-team-review --team virgo,scorpio,aries` — override team selection
+- `/zodiac-team:fast-review` — auto-detect type, auto-select team
+- `/zodiac-team:fast-review --type code` — force review type (code, spec, design, plan)
+- `/zodiac-team:fast-review --team virgo,scorpio,aries` — override team selection
 
 ## Step 0: Detect Review Type
 
@@ -200,17 +200,17 @@ Save the distilled review to a file. The file format is self-contained — `dot-
 
 ### File Location
 
-`.issues/{YYYY-MM-DD}__zodiac-review-{subject}.md`
+`.issues/{YYYY-MM-DD}__zodiac-fast-review-{subject}.md`
 
 Create `.issues/` folder if it doesn't exist.
 
 ### Output Template
 
 ````markdown
-# Zodiac Team Review: {subject}
+# Zodiac Team Fast Review: {subject}
 
 **Reviewed:** {YYYY-MM-DD}
-**Reviewer:** Claude (zodiac-team-review)
+**Reviewer:** Claude (zodiac-team:fast-review)
 **Review type:** {Code|Spec|Design|Plan|General} review ({auto-detected|user-specified})
 
 ---
@@ -272,7 +272,7 @@ Create `.issues/` folder if it doesn't exist.
 
 After saving, present a closing message to the user. Check whether the `dot-issues` plugin is installed in the current session (look for skills in the `dot-issues:*` namespace in your available skills list):
 
-- **If `dot-issues:dot-issues-show` is available:** Tell user: "Review saved to `.issues/{filename}`. Run `/dot-issues-show` to track progress, `/dot-issues-triage` to interactively accept/reject, or `/dot-issues-fix` to apply accepted fixes."
+- **If `dot-issues:show-issues` is available:** Tell user: "Review saved to `.issues/{filename}`. Run `/dot-issues:show-issues` to track progress, `/dot-issues:triage-issues` to interactively accept/reject, or `/dot-issues:fix-issues` to apply accepted fixes."
 - **If `dot-issues` is NOT installed:** Tell user: "Review saved to `.issues/{filename}`. To triage and auto-fix these findings, install the companion plugin: `/plugin install dot-issues@concinnity`."
 
 **Do NOT include in output:**

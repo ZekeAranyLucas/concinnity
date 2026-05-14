@@ -1,6 +1,6 @@
 ---
-name: dot-issues-show
-description: Scan the .issues/ folder, summarize open issues across all reviews, and offer to help resolve them
+name: show-issues
+description: Use when checking what review issues are still open across past reviews, starting a work session, or asking "what's left to do?", "any open issues?", "where did we leave off?". Scans .issues/ across all reviews and summarizes by state.
 ---
 
 # Show Issues from .issues/
@@ -209,7 +209,7 @@ This skill works with issues created by:
 - `five-agent-code-review`
 - `five-agent-spec-review`
 - `ado-pr-review`
-- Any skill using the `dot-issues-save` format
+- Any skill using the `save-issues` format
 
 ## Quick Commands
 
