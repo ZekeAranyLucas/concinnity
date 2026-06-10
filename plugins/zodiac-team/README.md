@@ -13,7 +13,7 @@ Dispatches a team of zodiac-archetype agents to review code, debate issues, and 
 
 Then run `/reload-plugins`.
 
-Reviews work standalone — findings save to `.issues/` and appear in chat. If [`dot-issues`](https://github.com/ZekeAranyLucas/concinnity/tree/main/plugins/dot-issues) is also installed, the closing recommendations adapt to offer triage (`/dot-issues:triage-issues`) and auto-fix (`/dot-issues:fix-issues`) workflows.
+Reviews work standalone — findings save to a per-repo issues directory (`.local/issues/`, `.issues/`, or `$DOT_ISSUES` — see [dot-issues README](https://github.com/ZekeAranyLucas/concinnity/tree/main/plugins/dot-issues#issues-directory-resolution)) and appear in chat. If [`dot-issues`](https://github.com/ZekeAranyLucas/concinnity/tree/main/plugins/dot-issues) is also installed, the closing recommendations adapt to offer triage (`/dot-issues:triage-issues`) and auto-fix (`/dot-issues:fix-issues`) workflows.
 
 ## Skills
 

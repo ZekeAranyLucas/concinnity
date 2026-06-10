@@ -498,7 +498,40 @@ Sort by priority (P1 → P2 → P3 → P4), then by confidence (HIGH → MEDIUM 
 
 ## Step 12: Save Review
 
-Save to `.issues/{YYYY-MM-DD}__zodiac-deep-review-{subject}.md`.
+Save to `$ISSUES_DIR/{YYYY-MM-DD}__zodiac-deep-review-{subject}.md`.
+
+### Resolve the issues directory
+
+Resolution matches dot-issues: `$DOT_ISSUES` → `.local/issues/` (if `.local` is gitignored) → `.issues/` (if `.issues` is gitignored) → prompt the user. `${CLAUDE_PROJECT_DIR}` is substituted by the runtime.
+
+```bash
+ROOT="${CLAUDE_PROJECT_DIR}"
+
+gitignored() {
+  [ -f "$ROOT/.gitignore" ] || return 1
+  awk -v target="$1" '
+    { sub(/\r$/, ""); sub(/#.*/, ""); gsub(/^[ \t]+|[ \t]+$/, "")
+      if ($0 == "") next
+      line = $0; sub(/^\//, "", line); sub(/\/$/, "", line)
+      if (line == target) { found = 1; exit }
+    } END { exit (found ? 0 : 1) }
+  ' "$ROOT/.gitignore"
+}
+
+if [ -n "${DOT_ISSUES:-}" ]; then
+  case "$DOT_ISSUES" in
+    /*) ISSUES_DIR="${DOT_ISSUES%/}" ;;
+    *)  ISSUES_DIR="$ROOT/${DOT_ISSUES%/}" ;;
+  esac
+elif gitignored ".local"; then
+  ISSUES_DIR="$ROOT/.local/issues"
+elif gitignored ".issues"; then
+  ISSUES_DIR="$ROOT/.issues"
+else
+  exit 2  # prompt user to add .local/ or .issues/ to .gitignore, then re-run
+fi
+mkdir -p "$ISSUES_DIR"
+```
 
 ### Output Template
 
@@ -625,7 +658,7 @@ Lower-priority items that may not be worth the review effort right now:
 3. Use `/dot-issues:show-issues` to see remaining open issues
 ````
 
-Tell user: "Debate review saved to `.issues/{filename}`."
+Tell user: "Debate review saved to `$ISSUES_DIR/{filename}`."
 
 After saving, present the recommended actions summary in chat (not just in the file). Check whether the `dot-issues` plugin is installed in the current session (look for skills in the `dot-issues:*` namespace in your available skills list):
 
@@ -636,7 +669,7 @@ After saving, present the recommended actions summary in chat (not just in the f
 
 **If `dot-issues` is NOT installed:**
 1. State how many issues are HIGH/MEDIUM/LOW confidence in chat (same counts, no slash-command offers)
-2. Close with: "Findings saved to `.issues/{filename}`. To get triage and auto-fix workflows, install the companion plugin: `/plugin install dot-issues@concinnity`."
+2. Close with: "Findings saved to `$ISSUES_DIR/{filename}`. To get triage and auto-fix workflows, install the companion plugin: `/plugin install dot-issues@concinnity`."
 The file's inline `> Run /dot-issues:X-issues` callouts remain useful as documentation if the user installs dot-issues later.
 
 **Do NOT include in output:**
@@ -755,5 +788,5 @@ Phase 6: Solution Finals (one final per issue, in parallel)
   SolFinals-H1, SolFinals-H2, ..., SolFinals-HM
   (definitive solution per issue, with confidence level)
        ↓ (all Phase 6 complete)
-Final Merge (order by priority, then confidence) → Save to .issues/
+Final Merge (order by priority, then confidence) → Save to $ISSUES_DIR
 ```

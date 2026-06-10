@@ -3,11 +3,11 @@ name: save-issues
 description: Use after a review produces findings to persist them to .issues/ with checkbox-tracked accept/reject states. Step 1 of the dot-issues workflow (save → show → triage → fix); typically invoked by review skills rather than directly.
 ---
 
-# Save Issues to .issues/
+# Save Issues to the issues directory
 
 ## Overview
 
-Save structured review feedback to the `.issues/` folder in the repository root. Each review session creates a dated file with issues formatted as tasks that can be accepted or rejected.
+Save structured review feedback to the repo's issues directory (resolved at runtime — see "Resolve the Issues Directory" below). Each review session creates a dated file with issues formatted as tasks that can be accepted or rejected.
 
 ## When to Use
 
@@ -17,47 +17,83 @@ Use when:
 - Completing a spec review (five-agent-spec-review)
 - Any review that produces actionable issues
 
+## Resolve the Issues Directory
+
+All dot-issues skills resolve their working directory through a shared script
+shipped with this plugin:
+
+```
+${CLAUDE_PLUGIN_ROOT}/scripts/resolve-issues-dir.sh
+```
+
+`${CLAUDE_PLUGIN_ROOT}` (alias `${COPILOT_PLUGIN_ROOT}` / `${PLUGIN_ROOT}`) is
+substituted by the runtime before the LLM reads this skill, so the path is
+already absolute when bash sees it.
+
+**Resolution order (write mode):**
+
+1. `$DOT_ISSUES` — explicit user override (absolute or repo-relative path); skips the gitignore check
+2. `.local/issues/` — if `.gitignore` contains a line that ignores `.local` (preferred default; one folder for all local working files)
+3. `.issues/` — if `.gitignore` contains a line that ignores `.issues` (original layout)
+4. Nothing matches → the script exits with code `2` and the skill must **prompt the user** to choose `.local/` or `.issues/`, add it to `.gitignore`, then re-run
+
+**Read mode (`--read`)** returns every candidate directory that physically exists (in resolution order), so reviews written under the old layout remain visible after a project migrates.
+
+### Invoking the script
+
+Both `${CLAUDE_PLUGIN_ROOT}` and `${CLAUDE_PROJECT_DIR}` are substituted by the runtime before the LLM reads this skill, so the paths below are already absolute when bash sees them. Passing `--root` explicitly is preferred over relying on the script's `git rev-parse` / cwd fallback — it works even when the user invoked the agent from a subdirectory.
+
+```bash
+SCRIPT="${CLAUDE_PLUGIN_ROOT}/scripts/resolve-issues-dir.sh"
+ROOT="${CLAUDE_PROJECT_DIR}"
+
+# Write mode — absolute path on stdout, exit 2 if unresolved
+ISSUES_DIR="$(bash "$SCRIPT" --root "$ROOT")" || {
+  # Prompt the user to add .local/ or .issues/ to .gitignore, then retry.
+  exit 2
+}
+
+# Read mode — newline-separated list of existing absolute dirs, exit 3 if none exist
+mapfile -t ISSUES_READ_DIRS < <(bash "$SCRIPT" --root "$ROOT" --read)
+```
+
+### Prompt-on-fallback flow
+
+When `resolve-issues-dir.sh` exits with code 2 (nothing resolved), ask the user — do not silently pick a default:
+
+> No issues directory is configured. Where should review files go?
+> 1. `.local/issues/` — recommended (one folder for all local working files; will add `.local/` to `.gitignore`)
+> 2. `.issues/` — original layout (will add `.issues/` to `.gitignore`)
+> 3. Set `$DOT_ISSUES` yourself and re-run
+
+Apply the chosen change to `.gitignore`, then re-run the resolver.
+
 ## Folder Structure
+
+After resolution, files live under `$ISSUES_DIR`:
 
 ```
 project-root/
-├── .issues/                          # All review files go here
+├── .local/issues/                    # OR .issues/ — resolved per project
 │   ├── 2026-01-30__tola-review-tests.md
 │   ├── 2026-01-30__code-review-auth-module.md
 │   └── 2026-01-28__spec-review-api-design.md
-├── .gitignore                        # Should include .issues/
+├── .gitignore                        # Must ignore .local/ (or .issues/)
 └── ...
-```
-
-## Setup: Add to .gitignore
-
-Before first use, ensure `.issues/` is gitignored:
-
-```bash
-# Check if .gitignore exists and has .issues/
-grep -q "^\.issues" .gitignore 2>/dev/null || echo ".issues/" >> .gitignore
-```
-
-Or manually add to `.gitignore`:
-```
-# Review issues (local working documents)
-.issues/
 ```
 
 ## File Naming Convention
 
-```
-{YYYY-MM-DD}__{review-type}.md
-```
+Files are written to `$ISSUES_DIR/{YYYY-MM-DD}__{review-type}.md`.
 
-Examples:
-- `2026-01-30__tola-review-tests.md`
-- `2026-01-30__code-review-feature-login.md`
-- `2026-01-30__spec-review-api-v2.md`
+Examples (assuming `$ISSUES_DIR = .local/issues`):
+- `.local/issues/2026-01-30__tola-review-tests.md`
+- `.local/issues/2026-01-30__code-review-feature-login.md`
+- `.local/issues/2026-01-30__spec-review-api-v2.md`
 
 If multiple reviews of the same type on the same day:
-- `2026-01-30__tola-review-tests.md`
-- `2026-01-30__tola-review-tests-2.md`
+- `.local/issues/2026-01-30__tola-review-tests.md`
+- `.local/issues/2026-01-30__tola-review-tests-2.md`
 
 ## Issue Format
 
@@ -173,10 +209,11 @@ Review skills should call this pattern at the end of their workflow:
 
 After completing the review, save issues using the save-issues format:
 
-1. Create `.issues/` folder if it doesn't exist
-2. Create file: `.issues/{YYYY-MM-DD}__{review-type}.md`
-3. Write issues using the task-based format above
-4. Tell user: "Review saved to `.issues/{filename}`. Use `/dot-issues:show-issues` to track progress."
+1. Resolve `$ISSUES_DIR` via `resolve-issues-dir.sh` (prompt user on exit 2)
+2. Create `$ISSUES_DIR/` if it doesn't exist
+3. Create file: `$ISSUES_DIR/{YYYY-MM-DD}__{review-type}.md`
+4. Write issues using the task-based format above
+5. Tell user: "Review saved to `$ISSUES_DIR/{filename}`. Use `/dot-issues:show-issues` to track progress."
 ```
 
 ## Example: After tola-review-tests
@@ -252,10 +289,10 @@ assertNotNull(session.token)
 
 ## Commands
 
-After saving issues, inform the user:
+After saving issues, inform the user (substitute the resolved `$ISSUES_DIR`):
 
 ```
-Review saved to .issues/2026-01-30__tola-review-tests.md
+Review saved to .local/issues/2026-01-30__tola-review-tests.md
 
 Next steps:
 - Open the file and mark issues [x] accepted or [-] rejected

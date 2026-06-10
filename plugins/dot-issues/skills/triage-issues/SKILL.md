@@ -19,8 +19,24 @@ Use when:
 
 ## Prerequisites
 
-- Issues in `.issues/` folder with `[ ]` (open) state
+- Issues directory resolved (see "Resolve the Issues Directory" below) containing review files with `[ ]` (open) state
 - Source files accessible for reading
+
+## Resolve the Issues Directory
+
+Triage reads from any existing location but writes updates back to whichever file the issue came from.
+
+`${CLAUDE_PLUGIN_ROOT}` and `${CLAUDE_PROJECT_DIR}` are substituted by the runtime before this skill is rendered.
+
+```bash
+mapfile -t ISSUES_READ_DIRS < <(bash "${CLAUDE_PLUGIN_ROOT}/scripts/resolve-issues-dir.sh" --root "${CLAUDE_PROJECT_DIR}" --read)
+if [ "${#ISSUES_READ_DIRS[@]}" -eq 0 ]; then
+  echo "No issues directory found. Use a review skill to create one."
+  exit 0
+fi
+```
+
+Full resolution algorithm (`$DOT_ISSUES` → `.local/issues/` → `.issues/` → prompt) is documented in `save-issues/SKILL.md`.
 
 ---
 
@@ -28,11 +44,13 @@ Use when:
 
 ### Step 1: Scan for Open Issues
 
-Find all open issues across all review files:
+Find all open issues across every readable directory:
 
 ```bash
 # Find all [ ] issues (open, not yet triaged)
-grep -rn "^### \[ \]" .issues/*.md 2>/dev/null
+for dir in "${ISSUES_READ_DIRS[@]}"; do
+  grep -rn "^### \[ \]" "$dir"/*.md 2>/dev/null
+done
 ```
 
 If no open issues found:
@@ -125,7 +143,7 @@ For each open issue (in Concinnity priority order), follow this flow:
 
 #### 4a. Read and Present the Issue
 
-Read the full issue from the `.issues/` file and the referenced source file.
+Read the full issue from its `.md` file and the referenced source file.
 
 Present to the user:
 
@@ -183,7 +201,7 @@ Options:
 
 #### 4c. Record the Decision
 
-Based on user response, update the issue in the `.issues/` file:
+Based on user response, update the issue in the originating `.md` file (the one the issue was read from — preserves legacy `.issues/` data after a migration):
 
 **If Accept:**
 ```markdown

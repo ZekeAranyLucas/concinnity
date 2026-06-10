@@ -1,6 +1,6 @@
 ---
 name: fix-issues
-description: Use when applying approved fixes from .issues/ — for example "fix the approved issues", "apply the accepted fixes", "do the fixes we agreed on". Step 4 of the dot-issues workflow; groups approved issues by file and dispatches fix agents serially with verification.
+description: Use when applying approved fixes from the issues directory — for example "fix the approved issues", "apply the accepted fixes", "do the fixes we agreed on". Step 4 of the dot-issues workflow; groups approved issues by file and dispatches fix agents serially with verification.
 ---
 
 # Fix Approved Issues
@@ -17,13 +17,27 @@ Automatically fix issues that have been approved (`[/]` state) by:
 
 Use when:
 - User says "fix issues", "fix approved issues", "dot issues fix"
-- There are approved (`[/]`) issues in `.issues/` that need fixing
+- There are approved (`[/]`) issues in the issues directory that need fixing
 - User wants automated help resolving review feedback
 
 ## Prerequisites
 
-- Issues in `.issues/` folder with `[/]` (approved) state
+- Issues directory resolved (see "Resolve the Issues Directory" below) containing review files with `[/]` (approved) state
 - Source files accessible for editing
+
+## Resolve the Issues Directory
+
+Fix reads from any existing location and writes state updates back to the originating file. Full algorithm in `save-issues/SKILL.md`.
+
+`${CLAUDE_PLUGIN_ROOT}` and `${CLAUDE_PROJECT_DIR}` are substituted by the runtime before this skill is rendered.
+
+```bash
+mapfile -t ISSUES_READ_DIRS < <(bash "${CLAUDE_PLUGIN_ROOT}/scripts/resolve-issues-dir.sh" --root "${CLAUDE_PROJECT_DIR}" --read)
+if [ "${#ISSUES_READ_DIRS[@]}" -eq 0 ]; then
+  echo "No issues directory found. Use a review skill to create one."
+  exit 0
+fi
+```
 
 ---
 
@@ -31,15 +45,17 @@ Use when:
 
 ### Step 1: Scan for Approved Issues
 
-First, find all approved issues across all review files:
+First, find all approved issues across every readable directory:
 
 ```bash
 # Find all [/] issues
-grep -rn "^### \[/\]" .issues/*.md
+for dir in "${ISSUES_READ_DIRS[@]}"; do
+  grep -rn "^### \[/\]" "$dir"/*.md
+done
 ```
 
 Parse each match to extract:
-- Review file path (which `.issues/` file)
+- Review file path (which `.md` file under which directory)
 - Issue number and ID (e.g., `tola-review-tests#3`)
 - Category
 - Description
@@ -151,7 +167,7 @@ TaskUpdate: status = "completed"
 
 ### Step 5: Verify and Update Issue States
 
-After each File Fix Agent completes, verify the fixes and update the `.issues/` file:
+After each File Fix Agent completes, verify the fixes and update the originating `.md` file in place (do not move it to a different directory):
 
 **VERIFIED → Mark as Fixed:**
 ```markdown
@@ -264,7 +280,7 @@ Start
   ▼                                           │
 ┌─────────────────────────────┐               │
 │ Verify fixes                │               │
-│ → Update .issues/ states    │               │
+│ → Update issue file states  │               │
 └─────────────────────────────┘               │
   │                                           │
   ▼                                           │

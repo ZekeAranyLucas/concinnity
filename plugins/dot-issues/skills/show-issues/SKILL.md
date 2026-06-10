@@ -3,11 +3,11 @@ name: show-issues
 description: Use when checking what review issues are still open across past reviews, starting a work session, or asking "what's left to do?", "any open issues?", "where did we leave off?". Scans .issues/ across all reviews and summarizes by state.
 ---
 
-# Show Issues from .issues/
+# Show Issues from the issues directory
 
 ## Overview
 
-Scan the `.issues/` folder for all review files, parse issue states, and present a summary of open issues. Offer to help resolve individual issues.
+Scan the repo's issues directory for all review files, parse issue states, and present a summary of open issues. Offer to help resolve individual issues.
 
 ## When to Use
 
@@ -17,21 +17,41 @@ Use when:
 - Starting a work session and need to see what needs attention
 - Checking progress on review feedback
 
-## Workflow
+## Resolve the Issues Directory
 
-### Step 1: Scan .issues/ Folder
+This skill is read-mostly. Use the resolver script (shipped with this plugin)
+in `--read` mode so legacy `.issues/` data is still visible after a project
+migrates to `.local/issues/`.
+
+`${CLAUDE_PLUGIN_ROOT}` and `${CLAUDE_PROJECT_DIR}` are substituted by the runtime before this skill is rendered, so the paths below are already absolute when bash sees them.
 
 ```bash
-# Find all issue files
-ls -la .issues/*.md 2>/dev/null || echo "No .issues/ folder found"
+mapfile -t ISSUES_READ_DIRS < <(bash "${CLAUDE_PLUGIN_ROOT}/scripts/resolve-issues-dir.sh" --root "${CLAUDE_PROJECT_DIR}" --read)
+if [ "${#ISSUES_READ_DIRS[@]}" -eq 0 ]; then
+  echo "No issues directory found. Run a review skill to create one."
+  exit 0
+fi
 ```
 
-If no `.issues/` folder exists, tell the user:
-> No `.issues/` folder found. Run a review skill (like `/tola-review-tests`) to create issues.
+When updating issue state (approve / fix / reject), write back to the **same file** that was read (not the resolved write location), so legacy data stays in place.
+
+## Workflow
+
+### Step 1: Scan the issues directory
+
+```bash
+# Find all issue files across every readable location
+for dir in "${ISSUES_READ_DIRS[@]}"; do
+  ls -la "$dir"/*.md 2>/dev/null
+done
+```
+
+If `ISSUES_READ_DIRS` is empty, tell the user:
+> No issues directory found. Run a review skill (like `/tola-review-tests`) to create issues.
 
 ### Step 2: Parse Each File
 
-For each `.md` file in `.issues/`:
+For each `.md` file across `ISSUES_READ_DIRS`:
 
 1. Extract metadata (review date, type, files reviewed)
 2. Count issues by state:
@@ -59,7 +79,7 @@ For each `.md` file in `.issues/`:
 # Issues Summary
 
 **Last updated:** {current date}
-**Files scanned:** {count} review files in .issues/
+**Files scanned:** {count} review files across {ISSUES_READ_DIRS joined with ", "}
 
 ## Overview
 
@@ -140,7 +160,7 @@ Remaining open issues: 3
 
 ### No Issues Folder
 ```
-No .issues/ folder found.
+No issues directory found (checked $DOT_ISSUES, .local/issues/, .issues/).
 
 To create issues, run a review skill:
 - /tola-review-tests - Review test code
@@ -158,12 +178,12 @@ All issues are resolved!
 **Total issues:** 12 (all closed)
 
 You can archive old review files:
-  mv .issues/2026-01-*.md .issues/archive/
+  mv "$ISSUES_DIR"/2026-01-*.md "$ISSUES_DIR"/archive/
 ```
 
 ### Empty Issues Folder
 ```
-The .issues/ folder exists but contains no review files.
+The issues directory exists but contains no review files.
 
 Run a review skill to create issues.
 ```
@@ -195,11 +215,11 @@ Run a review skill to create issues.
 
 ### Archive Old Reviews
 
-Suggest archiving when reviews are fully resolved:
+Suggest archiving when reviews are fully resolved (substitute the directory the file was read from):
 
 ```bash
-mkdir -p .issues/archive
-mv .issues/2026-01-15__*.md .issues/archive/
+mkdir -p "$ISSUES_DIR/archive"
+mv "$ISSUES_DIR"/2026-01-15__*.md "$ISSUES_DIR/archive/"
 ```
 
 ## Integration

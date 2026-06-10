@@ -1,7 +1,7 @@
 {
   "name": "dot-issues",
-  "description": "File-based issue tracking in .issues/ — save, show, triage, and fix review findings",
-  "version": "2.0.0",
+  "description": "File-based issue tracking with configurable location (.local/issues, .issues, or $DOT_ISSUES) — save, show, triage, and fix review findings",
+  "version": "2.1.0",
   "author": {
     "name": "Zeke Arany-Lucas",
     "email": "zeke@aranylucas.com"

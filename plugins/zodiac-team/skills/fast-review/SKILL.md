@@ -7,7 +7,7 @@ description: Use when reviewing code changes, PRs, diffs, specs, designs, or imp
 
 ## Overview
 
-**Multi-agent review powered by zodiac developer personas.** Auto-detects what you're reviewing (code, spec, design, plan), selects the right team of zodiac personas, dispatches each as a parallel review agent with persona-derived lenses, merges findings using Concinnity, and saves to `.issues/`.
+**Multi-agent review powered by zodiac developer personas.** Auto-detects what you're reviewing (code, spec, design, plan), selects the right team of zodiac personas, dispatches each as a parallel review agent with persona-derived lenses, merges findings using Concinnity, and saves to the resolved issues directory (see "Save Review" below).
 
 Each persona's review lens is derived from their traits — strengths define what they focus on, other team members' strengths define what they avoid. This prevents overlap while ensuring complete coverage.
 
@@ -198,11 +198,48 @@ Rank every issue by which principle it violates, NOT by which persona found it:
 
 Save the distilled review to a file. The file format is self-contained — `dot-issues` is an optional consumer that adds triage/auto-fix workflows on top.
 
+### Resolve the issues directory
+
+Resolution order matches dot-issues (so the file ends up where dot-issues will look for it later, whether or not dot-issues is installed): `$DOT_ISSUES` → `.local/issues/` (if `.local` is gitignored) → `.issues/` (if `.issues` is gitignored) → prompt the user.
+
+`${CLAUDE_PROJECT_DIR}` is substituted by the runtime; it resolves to the git repo root (or cwd if not in a repo) so the lookup works even when the user invoked the agent from a subdirectory.
+
+```bash
+ROOT="${CLAUDE_PROJECT_DIR}"
+
+# Match a line like .local, .local/, /.local, or /.local/ in <root>/.gitignore.
+gitignored() {
+  [ -f "$ROOT/.gitignore" ] || return 1
+  awk -v target="$1" '
+    { sub(/\r$/, ""); sub(/#.*/, ""); gsub(/^[ \t]+|[ \t]+$/, "")
+      if ($0 == "") next
+      line = $0; sub(/^\//, "", line); sub(/\/$/, "", line)
+      if (line == target) { found = 1; exit }
+    } END { exit (found ? 0 : 1) }
+  ' "$ROOT/.gitignore"
+}
+
+if [ -n "${DOT_ISSUES:-}" ]; then
+  case "$DOT_ISSUES" in
+    /*) ISSUES_DIR="${DOT_ISSUES%/}" ;;
+    *)  ISSUES_DIR="$ROOT/${DOT_ISSUES%/}" ;;
+  esac
+elif gitignored ".local"; then
+  ISSUES_DIR="$ROOT/.local/issues"
+elif gitignored ".issues"; then
+  ISSUES_DIR="$ROOT/.issues"
+else
+  # Prompt user to add .local/ or .issues/ to .gitignore, then re-run.
+  exit 2
+fi
+mkdir -p "$ISSUES_DIR"
+```
+
 ### File Location
 
-`.issues/{YYYY-MM-DD}__zodiac-fast-review-{subject}.md`
+`$ISSUES_DIR/{YYYY-MM-DD}__zodiac-fast-review-{subject}.md`
 
-Create `.issues/` folder if it doesn't exist.
+Create `$ISSUES_DIR/` if it doesn't exist.
 
 ### Output Template
 
@@ -272,8 +309,8 @@ Create `.issues/` folder if it doesn't exist.
 
 After saving, present a closing message to the user. Check whether the `dot-issues` plugin is installed in the current session (look for skills in the `dot-issues:*` namespace in your available skills list):
 
-- **If `dot-issues:show-issues` is available:** Tell user: "Review saved to `.issues/{filename}`. Run `/dot-issues:show-issues` to track progress, `/dot-issues:triage-issues` to interactively accept/reject, or `/dot-issues:fix-issues` to apply accepted fixes."
-- **If `dot-issues` is NOT installed:** Tell user: "Review saved to `.issues/{filename}`. To triage and auto-fix these findings, install the companion plugin: `/plugin install dot-issues@concinnity`."
+- **If `dot-issues:show-issues` is available:** Tell user: "Review saved to `$ISSUES_DIR/{filename}`. Run `/dot-issues:show-issues` to track progress, `/dot-issues:triage-issues` to interactively accept/reject, or `/dot-issues:fix-issues` to apply accepted fixes."
+- **If `dot-issues` is NOT installed:** Tell user: "Review saved to `$ISSUES_DIR/{filename}`. To triage and auto-fix these findings, install the companion plugin: `/plugin install dot-issues@concinnity`."
 
 **Do NOT include in output:**
 - Raw agent outputs (only the merged, deduplicated result)
@@ -396,7 +433,7 @@ digraph zodiac_review {
     {rank=same; "Persona 1"; "Persona 2"; "Persona 3"; "Persona 4"};
 
     "Supervisor Merge (Concinnity)" [shape=box];
-    "Save to .issues/" [shape=doublecircle];
+    "Save to $ISSUES_DIR" [shape=doublecircle];
 
     "Review Target" -> "Detect Type";
     "Detect Type" -> "Compose Team";
@@ -413,6 +450,6 @@ digraph zodiac_review {
     "Persona 3" -> "Supervisor Merge (Concinnity)";
     "Persona 4" -> "Supervisor Merge (Concinnity)";
 
-    "Supervisor Merge (Concinnity)" -> "Save to .issues/";
+    "Supervisor Merge (Concinnity)" -> "Save to $ISSUES_DIR";
 }
 ```

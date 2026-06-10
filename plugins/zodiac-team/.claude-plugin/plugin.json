@@ -1,7 +1,7 @@
 {
   "name": "zodiac-team",
   "description": "Multi-agent code review with zodiac developer personas, adversarial debate, and Concinnity prioritization",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "Zeke Arany-Lucas",
     "email": "zeke@aranylucas.com"
