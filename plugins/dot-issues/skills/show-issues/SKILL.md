@@ -1,6 +1,6 @@
 ---
 name: show-issues
-description: Use when checking what review issues are still open across past reviews, starting a work session, or asking "what's left to do?", "any open issues?", "where did we leave off?". Scans .issues/ across all reviews and summarizes by state.
+description: Use when checking what review issues are still open across past reviews, starting a work session, or asking "what's left to do?", "any open issues?", "where did we leave off?". Scans the issues directory (`.local/issues/`, `.issues/`, or `$DOT_ISSUES`) across all reviews and summarizes by state.
 ---
 
 # Show Issues from the issues directory
@@ -177,8 +177,11 @@ All issues are resolved!
 **Files scanned:** 3 review files
 **Total issues:** 12 (all closed)
 
-You can archive old review files:
-  mv "$ISSUES_DIR"/2026-01-*.md "$ISSUES_DIR"/archive/
+You can archive old review files in place:
+  for dir in "${ISSUES_READ_DIRS[@]}"; do
+    mkdir -p "$dir/archive"
+    mv "$dir"/2026-01-*.md "$dir/archive/" 2>/dev/null
+  done
 ```
 
 ### Empty Issues Folder
@@ -215,11 +218,13 @@ Run a review skill to create issues.
 
 ### Archive Old Reviews
 
-Suggest archiving when reviews are fully resolved (substitute the directory the file was read from):
+Suggest archiving when reviews are fully resolved. Archive in place — keep each file in the directory it was read from so legacy `.issues/` data doesn't get silently relocated to `.local/issues/`:
 
 ```bash
-mkdir -p "$ISSUES_DIR/archive"
-mv "$ISSUES_DIR"/2026-01-15__*.md "$ISSUES_DIR/archive/"
+for dir in "${ISSUES_READ_DIRS[@]}"; do
+  mkdir -p "$dir/archive"
+  mv "$dir"/2026-01-15__*.md "$dir/archive/" 2>/dev/null
+done
 ```
 
 ## Integration
